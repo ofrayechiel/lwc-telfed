@@ -1,15 +1,6 @@
 import { LightningElement } from 'lwc';
 
-  const actions = [
-    { label: 'View', name: 'view' },
-    { label: 'Attach', name: 'attach' },
-    { label: 'Approve', name: 'approve' },
-    { label: 'Reject', name: 'reject' },
-    //{ label: 'Set as Submitted', name: 'submitted'},
-    //{ label: 'Set as Missing', name: 'missing'},
-];
-
-export default class AcDocs extends LightningElement {
+ export default class AcDocs extends LightningElement {
   descriptionsVisible = false;
 
 
@@ -20,9 +11,6 @@ export default class AcDocs extends LightningElement {
     //{ label: 'Description', fieldName: 'Description'  , hideDefaultActions: true},
     { label: 'Submitted', fieldName: 'Submitted', type: 'boolean', editable: true},
     { label: 'Attached', fieldName: 'isAttached', type: 'boolean' },
-    //{ type: 'button', typeAttributes: {disabled: false, iconName: 'utility:approval', iconPosition: 'left', label: 'Approve', name: 'approve', title:'Approve the submitted document', variant:'neutral'}},
-    //{ type: 'button-icon', typeAttributes: {alternativeText: 'alt text', disabled: false, iconName: 'standard:first_non_empty', name: 'reject', title: 'Title', variant: 'border-filled'}},
-    //{ type: 'button-icon', typeAttributes: {alternativeText: 'alt text', disabled: false, iconName: 'standard:first_non_empty', name: 'reject', title: 'Title', variant: 'border-filled'}},
     {
         type: 'action',
         typeAttributes: { rowActions: this.getRowActions },
