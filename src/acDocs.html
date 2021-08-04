@@ -1,0 +1,15 @@
+<template>
+  <lightning-card title="Required Documents" icon-name="standard:drafts">
+    <ul>
+      <template for:each={required} for:item="doc">
+        <li key={doc.Code}>
+          {doc.Name} <span if:true={descriptionsVisible}>{doc.Description}
+            </span>
+        </li>
+      </template>
+    </ul>
+
+    <lightning-input type="checkbox" label="Show descriptions" onchange={handleChangeShowDescriptions}>
+    </lightning-input>
+  </lightning-card>
+</template>

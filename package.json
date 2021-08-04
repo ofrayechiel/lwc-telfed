@@ -1,0 +1,7 @@
+{
+  "name": "@wcd/ofrayechiel.lwc-krw0fhmv",
+  "version": "0.0.0",
+  "scripts": {
+    "serve": "wcd-cli serve 00FEDK7MitAj7MZrdtjk --open"
+  }
+}
