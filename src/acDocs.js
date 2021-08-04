@@ -1,68 +1,132 @@
 import { LightningElement } from 'lwc';
+
+  const actions = [
+    { label: 'View', name: 'view' },
+    { label: 'Attach', name: 'attach' },
+    { label: 'Approve', name: 'approve' },
+    { label: 'Reject', name: 'reject' },
+    //{ label: 'Set as Submitted', name: 'submitted'},
+    //{ label: 'Set as Missing', name: 'missing'},
+];
+
 export default class AcDocs extends LightningElement {
   descriptionsVisible = false;
-  
+
+
   columns = [
-    { label: 'Name', fieldName: 'Name' },
-    { label: 'Description', fieldName: 'Description' },
+    { label: 'Name', fieldName: 'Name' , hideDefaultActions: true},
+    {label: 'Status', iconName: 'utility:approval', cellAttributes:
+     { iconName: { fieldName: 'ApprovalStatusIcon' }, iconLabel: { fieldName: 'ApprovalStatus'}} , hideDefaultActions: true},
+    //{ label: 'Description', fieldName: 'Description'  , hideDefaultActions: true},
+    { label: 'Submitted', fieldName: 'Submitted', type: 'boolean', editable: true},
+    { label: 'Attached', fieldName: 'isAttached', type: 'boolean' },
+    //{ type: 'button', typeAttributes: {disabled: false, iconName: 'utility:approval', iconPosition: 'left', label: 'Approve', name: 'approve', title:'Approve the submitted document', variant:'neutral'}},
+    //{ type: 'button-icon', typeAttributes: {alternativeText: 'alt text', disabled: false, iconName: 'standard:first_non_empty', name: 'reject', title: 'Title', variant: 'border-filled'}},
+    //{ type: 'button-icon', typeAttributes: {alternativeText: 'alt text', disabled: false, iconName: 'standard:first_non_empty', name: 'reject', title: 'Title', variant: 'border-filled'}},
+    {
+        type: 'action',
+        typeAttributes: { rowActions: this.getRowActions },
+    },
 ];
   docs = [
         {
             Code: 'X1',
             Name: 'Doc1',
             Description: 'This is an explanation of doc 1',
+            Submitted: true,
+            ApprovalStatus: 'Rejected',
+            ApprovalStatusIcon: 'standard:first_non_empty', 
+            isAttached: true,
         },
         {
             Code: 'X2',
             Name: 'Doc2',
             Description: 'This is an explanation of doc 2',
+            Submitted: true,
+            ApprovalStatus: 'Approved',
+            ApprovalStatusIcon: 'standard:approval',
+            isAttached: true,
         },
         {
             Code: 'X3',
             Name: 'Doc3',
             Description: '',
+            Submitted: false,
+            ApprovalStatus: '',
+            isAttached: false,
         },
         {
             Code: 'X4',
             Name: 'Doc4',
             Description: 'This is an explanation of doc 4',
+            Submitted: true,
+            ApprovalStatus: '',
+            isAttached: true,
         },
         {
             Code: 'X5',
             Name: 'Doc5',
             Description: '',
+            Submitted: true,
+            ApprovalStatus: '',
+            isAttached: false,
         },
     ];
 
-  required = [
-        {
-            Code: 'X1',
-            Name: 'Doc1',
-            Description: 'This is an explanation of doc 1',
-        },
-        {
-            Code: 'X2',
-            Name: 'Doc2',
-            Description: 'This is an explanation of doc 2',
-        },
-        {
-            Code: 'X3',
-            Name: 'Doc3',
-            Description: '',
-        },
-        {
-            Code: 'X4',
-            Name: 'Doc4',
-            Description: 'This is an explanation of doc 4',
-        },
-        {
-            Code: 'X5',
-            Name: 'Doc5',
-            Description: '',
-        },
-    ];
+    getRowActions(row, doneCallback) {
+        const actions = [];
+        if (row['isAttached']) {
+            actions.push({
+                'label': 'View',
+                'name': 'view'
+            });
+        }
+        if (!row['isAttached']) {
+            actions.push({
+                'label': 'Attach',
+                'name': 'attach'
+            });
+        }
+        if (row['Submitted'] && row['ApprovalStatus'] != 'Approved') {
+            actions.push({
+                'label': 'Approve',
+                'name': 'approve',
+                iconName: 'standard:approval',
+            });
+        }
+        if (row['Submitted'] && row['ApprovalStatus'] != 'Rejected') {
+            actions.push({
+                'label': 'Reject',
+                'name': 'reject',
+                iconName: 'standard:first_non_empty'
+            });
+        }
+        doneCallback(actions);
+    }
 
-  handleChangeShowDescriptions(event) {
+
+    handleChangeShowDescriptions(event) {
         this.descriptionsVisible = event.target.checked;
     }
+
+    handleCellChange(event) {
+
+    }
+
+    handleRowAction(event) {
+        const action = event.detail.action;
+        const row = event.detail.row;
+        switch (action.name) {
+            case 'view':
+                alert('Showing Details: ' + JSON.stringify(row));
+                break;
+            case 'delete':
+                // const rows = this.data;
+                // const rowIndex = rows.indexOf(row);
+                // rows.splice(rowIndex, 1);
+                // this.data = rows;
+                break;
+        }
+     }
+
 }

@@ -1,16 +1,9 @@
 <template>
   <lightning-card title="Required Documents" icon-name="standard:drafts">
     <div class="slds-card__body slds-card__body_inner">
-      <lightning-datatable key-field="Code" data={docs} columns={columns}>
+      <lightning-datatable key-field="Code" data={docs} columns={columns} onrowaction={handleRowAction}
+        oncellchange={handleCellChange} hide-checkbox-column="true">
       </lightning-datatable>
-      <!--ul>
-        <template for:each={required} for:item="doc">
-          <li key={doc.Code}>
-            {doc.Name} <span if:true={descriptionsVisible}>{doc.Description}
-            </span>
-          </li>
-        </template>
-      </ul-->
     </div>
     <footer class="slds-card__footer">
       <lightning-input type="checkbox" label="Show descriptions" onchange={handleChangeShowDescriptions}>
