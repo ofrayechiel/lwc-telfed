@@ -1,6 +1,14 @@
-import { LightningElement } from 'lwc';
+import { LightningElement, wire, api } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
+import REQ_DOCS_FIELD from '@salesforce/schema/Assistance_Request__c.Required_Documents__c';
 
- export default class AcDocs extends LightningElement {
+export default class AcDocs extends LightningElement {
+    @api recordId;
+
+    @wire(getRecord, { recordId: '$recordId', fields: [REQ_DOCS_FIELD] })
+    ar;
+
+
   descriptionsVisible = false;
 
 
